@@ -24,6 +24,7 @@ public class TripleFinder {
 	 * calling program at any time needed. Keep them private! Their values will be
 	 * accessed via getter methods.
 	 */
+	public final int THIRTYSEVEN = 37;
 	private Integer[] theTriple = new Integer[3];
 	private long bruteForceOperations = 0;
 	private long bruteForceRuntime = 0;
@@ -32,9 +33,35 @@ public class TripleFinder {
 
 	/*
 	 * Brute Force algorithm for finding the mult37-triple.
+	 *
 	 */
 	public void findTripleBruteForce(Integer[] listOfIntegers) {
-		// TODO: FINISH THIS METHOD
+		//initializes a counter for the number of brute force operations
+		bruteForceOperations = 0;
+		// gets the current time in milliseconds and stores it in startTime
+		long startTime = System.currentTimeMillis();
+
+		// starts a for loop that will iterate through the list of integers
+		for (int firstIndex = 0; firstIndex < listOfIntegers.length; firstIndex++) {
+			// starts a for loop that will iterate through the list of integers starting at the second index
+			for (int secondIndex = firstIndex + 1; secondIndex < listOfIntegers.length; secondIndex++) {
+				// starts a for loop that will iterate through the list of integers starting at the third index
+				for (int thirdIndex = secondIndex + 1; thirdIndex < listOfIntegers.length; thirdIndex++) {
+					bruteForceOperations++; // count the number of operations
+					// Adds up the 3 integers at the current indexes
+					int sum = listOfIntegers[firstIndex] + listOfIntegers[secondIndex] + listOfIntegers[thirdIndex];
+					// checks if the sum is a multiple of 37
+					if(sum % THIRTYSEVEN == 0) {
+						// if the sum is a multiple of 37, then the triple is found
+						theTriple[0] = listOfIntegers[firstIndex];
+						theTriple[1] = listOfIntegers[secondIndex];
+						theTriple[2] = listOfIntegers[thirdIndex];
+					}
+				}
+			}
+		}
+		// subtracts the start time from the current time to get the total runtime
+		bruteForceRuntime = System.currentTimeMillis() - startTime;
 	}
 
 	/*
@@ -42,6 +69,11 @@ public class TripleFinder {
 	 */
 	public void findTripleClever(Integer[] listOfIntegers) {
 		// TODO: FINISH THIS METHOD
+		cleverOperations = 0;
+		long startTime = System.currentTimeMillis();
+
+
+		cleverRuntime = System.currentTimeMillis() - startTime;
 	}
 
 	/*
@@ -58,8 +90,7 @@ public class TripleFinder {
 	 * the "mod" operator (%) is used for any purpose.
 	 */
 	public long getBruteForceOperations() {
-		// TODO: FINISH THIS METHOD
-		return 373737;
+		return bruteForceOperations;
 	}
 
 	/*
@@ -68,8 +99,7 @@ public class TripleFinder {
 	 * contents of the findTripleBruteForce() method.
 	 */
 	public long getBruteForceRuntime() {
-		// TODO: FINISH THIS METHOD
-		return 373737;
+		return bruteForceRuntime;
 	}
 
 	/*
@@ -78,8 +108,7 @@ public class TripleFinder {
 	 * the "mod" operator (%) is used fr any purpose.
 	 */
 	public long getCleverOperations() {
-		// TODO: FINISH THIS METHOD
-		return 373737;
+		return cleverOperations;
 	}
 
 	/*
@@ -88,8 +117,7 @@ public class TripleFinder {
 	 * contents of the findTripleClever() method.
 	 */
 	public long getCleverRuntime() {
-		// TODO: FINISH THIS METHOD
-		return 373737;
+		return cleverRuntime;
 	}
 
 }
