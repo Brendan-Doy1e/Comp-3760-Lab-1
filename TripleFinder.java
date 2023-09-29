@@ -11,8 +11,11 @@ import java.util.Scanner;
  * Starter code for Lab 1 - finding a "mult37-triple" in a data file by 
  * two different algorithms and comparing the running times.
  * 
- * TODO: ADD YOUR NAME AND ID HERE!
+ * Brendan Doyle
+ * A01329024
+ *
  */
+
 public class TripleFinder {
 
 	/*
@@ -22,6 +25,10 @@ public class TripleFinder {
 	 * accessed via getter methods.
 	 */
 	private Integer[] theTriple = new Integer[3];
+	private long bruteForceOperations = 0;
+	private long bruteForceRuntime = 0;
+	private long cleverOperations = 0;
+	private long cleverRuntime = 0;
 
 	/*
 	 * Brute Force algorithm for finding the mult37-triple.
