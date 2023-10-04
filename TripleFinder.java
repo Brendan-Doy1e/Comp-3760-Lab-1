@@ -4,12 +4,17 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
  * Starter code for Lab 1 - finding a "mult37-triple" in a data file by 
  * two different algorithms and comparing the running times.
+ *
+ * This program reads a list of integers from a file, and then uses two different
+ * algorithms to find a "mult37-triple" in the list. A mult37-triple is a set of
+ * three integers from the list whose sum is a multiple of 37.
  * 
  * Brendan Doyle
  * A01329024
@@ -37,7 +42,7 @@ public class TripleFinder {
 	 */
 	public void findTripleBruteForce(Integer[] listOfIntegers) {
 		//initializes a counter for the number of brute force operations
-		bruteForceOperations = 0;
+		//bruteForceOperations = 0;
 		// gets the current time in milliseconds and stores it in startTime
 		long startTime = System.currentTimeMillis();
 
@@ -56,6 +61,7 @@ public class TripleFinder {
 						theTriple[0] = listOfIntegers[firstIndex];
 						theTriple[1] = listOfIntegers[secondIndex];
 						theTriple[2] = listOfIntegers[thirdIndex];
+						break;
 					}
 				}
 			}
@@ -68,9 +74,40 @@ public class TripleFinder {
 	 * "Clever" algorithm for finding the mult37-triple.
 	 */
 	public void findTripleClever(Integer[] listOfIntegers) {
-		// TODO: FINISH THIS METHOD
 		cleverOperations = 0;
 		long startTime = System.currentTimeMillis();
+
+		Integer[] congruenceArray = new Integer[THIRTYSEVEN];
+		Arrays.fill(congruenceArray, -1);
+
+//		for (int index = 0; index < listOfIntegers.length; index++) {
+//			int congruenceClass = listOfIntegers[index] % THIRTYSEVEN;
+//			cleverOperations++; // count the number of operations
+//			congruenceArray[congruenceClass] = listOfIntegers[index];
+//		}
+		// Have the congruent array, now find the triple
+		for (Integer numberX : listOfIntegers) {
+			int congruenceClass = numberX % THIRTYSEVEN;
+			congruenceArray[congruenceClass] = numberX;
+		}
+
+		// Have the congruent array, now find the triple
+		for (int firstIndex = 0; firstIndex < THIRTYSEVEN; firstIndex++) {
+			for (int secondIndex = firstIndex + 1; secondIndex < THIRTYSEVEN; secondIndex++) {
+				for (int thirdIndex = secondIndex + 1; thirdIndex < THIRTYSEVEN; thirdIndex++) {
+					cleverOperations++; // count the number of operations
+					if (congruenceArray[firstIndex] != -1 && congruenceArray[secondIndex] != -1 && congruenceArray[thirdIndex] != -1) {
+						int sum = congruenceArray[firstIndex] + congruenceArray[secondIndex] + congruenceArray[thirdIndex];
+						if (sum % THIRTYSEVEN == 0) {
+							theTriple[0] = congruenceArray[firstIndex];
+							theTriple[1] = congruenceArray[secondIndex];
+							theTriple[2] = congruenceArray[thirdIndex];
+							break;
+						}
+					}
+				}
+			}
+		}
 
 
 		cleverRuntime = System.currentTimeMillis() - startTime;
@@ -119,5 +156,34 @@ public class TripleFinder {
 	public long getCleverRuntime() {
 		return cleverRuntime;
 	}
+
+	// ======================================================================================
+	//
+	// Reads the input file given by "filename", assumed to contain a list of
+	// integer numbers. Clones the numbers into a plain array and returns the array.
+	//
+	public static Integer[] readArray(String filename) throws IOException {
+		File file = new File(filename);
+		Scanner sc = new Scanner(file);
+
+		//
+		// Read the items initially into an ArrayList (for dynamic growth)
+		//
+		ArrayList<Integer> input_list = new ArrayList<Integer>();
+		while (sc.hasNext()) {
+			int n = sc.nextInt();
+			input_list.add(n);
+		}
+		sc.close();
+
+		//
+		// Copy the ArrayList to an Integer[] array of the proper size
+		//
+		Integer[] arr = new Integer[input_list.size()];
+		arr = input_list.toArray(arr);
+		return arr;
+
+	}
+
 
 }
